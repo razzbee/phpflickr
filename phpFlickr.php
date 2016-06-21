@@ -489,9 +489,12 @@ if ( !class_exists('phpFlickr') ) {
 				}
 
 				$photo = realpath($photo);
-				$args['photo'] = '@' . $photo;
+				
+				//curl version in php 5.5+ uses Curl_file 
+				//$args['photo'] = '@' . $photo;
 
-
+                                $args['photo'] = new CURLFile($photo);
+                                
 				$curl = curl_init($this->upload_endpoint);
 				curl_setopt($curl, CURLOPT_POST, true);
 				curl_setopt($curl, CURLOPT_POSTFIELDS, $args);
